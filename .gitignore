@@ -1,0 +1,16 @@
+# 비밀값 — 절대 커밋 금지
+.env
+client_secret*.json
+token*.json
+
+# 생성물 / 캐시
+cache/
+output/
+__pycache__/
+*.pyc
+
+# 원본 영상·오디오 (용량이 커서 저장소에 올리지 않음)
+projects/*/clips/
+projects/demo/*.wav
+projects/demo/*.mp3
+assets/bgm/*.mp3

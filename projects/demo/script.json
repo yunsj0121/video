@@ -1,0 +1,34 @@
+{
+  "name": "demo",
+  "title": "코드로 만드는 *릴스* 편집",
+  "speed": 1.0,
+  "gap": 0.25,
+  "crop_anchor": "center",
+  "bgm": "bgm_tone.mp3",
+  "bgm_volume": 0.08,
+  "style": {
+    "caption": { "y": 0.68, "size": 64, "mode": "box", "box_alpha": 160 },
+    "title": { "y": 0.16, "size": 86, "fade_in": 0.4 }
+  },
+  "scenes": [
+    {
+      "text": "원본 클립만 넣으면 *자막과 나레이션*이 자동으로 붙습니다.",
+      "clip": "clips/a.mp4",
+      "start": 0.5,
+      "sfx": "pop.wav"
+    },
+    {
+      "text": "가로 영상도 세로로 잘라서 쓰고, 크롭 기준은 위·가운데·아래 중에 고를 수 있어요.",
+      "clip": "clips/b.mp4",
+      "start": 0,
+      "crop_anchor": "top",
+      "caption": { "mode": "free", "size": 60 }
+    },
+    {
+      "text": "마지막으로 BGM과 효과음을 섞어서 *MP4 한 편*으로 뽑아냅니다.",
+      "clip": "clips/c.mp4",
+      "start": 1.0,
+      "sfx": "pop.wav"
+    }
+  ]
+}
