@@ -32,7 +32,8 @@ def _is_image(p: Path) -> bool:
 
 def _render_scene(i, sc, base, cfg, work):
     text = sc["text"]
-    speech, real = tts.narrate(text.replace("*", ""), cfg.get("voice_id", ""), cfg.get("model_id", ""),
+    speech, real = tts.narrate(text.replace("*", ""), sc.get("tts", cfg.get("tts", "")),
+                               sc.get("voice", cfg.get("voice", cfg.get("voice_id", ""))),
                                sc.get("speed", cfg.get("speed", 1.0)))
     dur = round(ff.duration(speech) + sc.get("gap", cfg.get("gap", 0.25)), 3)
 
@@ -134,7 +135,7 @@ def render(script_path: str, output: str = "", previews: bool = True) -> str:
 
     ff.run(inputs + ["-filter_complex", ";".join(fc), "-map", vout, "-map", "[aout]",
                      "-t", f"{total}"] + _VCODEC + _ACODEC + ["-movflags", "+faststart", out])
-    print(f"완성: {out}  ({total:.2f}s)" + ("" if all_real else "  ※ dry-run: 나레이션은 무음(ElevenLabs 키 없음)"))
+    print(f"완성: {out}  ({total:.2f}s)" + ("" if all_real else "  ※ 나레이션 무음(silent 모드)"))
 
     if previews:  # 장면별 중간 프레임을 모은 컨택트 시트 — 레이아웃 확인/수정용
         frames = []

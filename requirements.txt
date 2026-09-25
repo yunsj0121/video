@@ -2,3 +2,4 @@ pillow>=10
 requests>=2.28
 python-dotenv>=1.0
 imageio-ffmpeg>=0.5  # 시스템 ffmpeg 이 없을 때 대체용
+edge-tts>=7  # 무료 나레이션

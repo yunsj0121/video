@@ -1,7 +1,9 @@
 {
   "name": "demo",
   "title": "코드로 만드는 *릴스* 편집",
-  "speed": 1.0,
+  "tts": "edge",
+  "voice": "ko-KR-SunHiNeural",
+  "speed": 1.1,
   "gap": 0.25,
   "crop_anchor": "center",
   "bgm": "bgm_tone.mp3",

@@ -4,7 +4,7 @@
 FFmpeg + Python(Pillow)으로 렌더링해 1080x1920 MP4를 만듭니다. CapCut 같은 GUI 편집기를 쓰지 않습니다.
 
 ```
-[원본 클립] → ① 대본(Claude) → ② 나레이션(ElevenLabs, 캐싱) → ③ 스티커(로컬 PNG/GIF)
+[원본 클립] → ① 대본(Claude) → ② 나레이션(edge-tts 무료 / ElevenLabs, 캐싱) → ③ 스티커(로컬 PNG/GIF)
            → ④ BGM(ElevenLabs Music, 재사용) + 효과음 → ⑤ 합성(FFmpeg + Pillow) → [MP4]
 ```
 
@@ -15,7 +15,23 @@ pip install -r requirements.txt        # ffmpeg 이 없으면 imageio-ffmpeg 바
 python -m reels demo                   # 테스트 클립을 만들어 output/demo.mp4 렌더
 ```
 
-API 키가 없어도 **dry-run**으로 돌아갑니다(나레이션 자리에 문장 길이만큼의 무음). 실제 목소리를 넣으려면:
+API 키 없이도 **무료 음성(edge-tts)**으로 나레이션이 들어갑니다 (인터넷 연결 필요).
+
+## 나레이션 엔진
+
+| 엔진 (`"tts"`) | 비용 | 한국어 음성 (`"voice"`) | 비고 |
+|---|---|---|---|
+| `edge` (기본) | 무료, 키 불필요 | `ko-KR-SunHiNeural`(여), `ko-KR-InJoonNeural`(남), `ko-KR-HyunsuMultilingualNeural`(남) | Microsoft Edge "소리 내어 읽기" 음성. 비공식 사용이라 예고 없이 막히거나 바뀔 수 있음 |
+| `elevenlabs` | 유료(무료 티어 있음) | `.env`의 `ELEVENLABS_VOICE_ID` | 더 자연스러움, 내 목소리 클론 가능 |
+| `silent` | 무료 | — | 무음. 인터넷 없이 레이아웃만 확인할 때 |
+
+엔진은 script.json 의 `"tts"`, 또는 `.env` 의 `TTS_PROVIDER`로 고릅니다.
+비워두면 `ELEVENLABS_API_KEY`가 있으면 elevenlabs, 없으면 edge를 씁니다.
+
+> ⚠️ edge 음성을 **수익 창출 채널에 상업적으로** 써도 되는지는 Microsoft가 명확히 밝히지 않았습니다.
+> 개인·테스트 용도로는 문제없이 쓰이지만, 수익화 채널이라면 확인 후 사용하거나 ElevenLabs(Starter 이상) 사용을 권장합니다.
+
+ElevenLabs를 쓰려면:
 
 ```bash
 cp .env.example .env                   # ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID 입력
@@ -39,7 +55,8 @@ python -m reels render projects/<이름>/script.json
 {
   "name": "my-reel",
   "title": "타이틀 카드 *강조*",        // 생략하면 타이틀 없음
-  "voice_id": "",                      // 비우면 .env 의 ELEVENLABS_VOICE_ID
+  "tts": "edge",                       // edge(무료) | elevenlabs | silent — 비우면 자동 선택
+  "voice": "ko-KR-SunHiNeural",        // edge 음성 이름 또는 ElevenLabs voice id
   "speed": 1.0,                        // 나레이션 속도
   "gap": 0.25,                         // 문장 뒤 여유(초)
   "crop_anchor": "center",             // 가로→세로 크롭 기준: top | center | bottom

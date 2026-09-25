@@ -14,6 +14,7 @@
 ## 규칙
 
 - API 키는 `.env`에서만 읽는다. 코드·커밋에 넣지 않는다.
-- TTS는 `cache/tts`에 해시 캐싱된다. 문장·보이스·속도가 같으면 재호출하지 않는다.
+- TTS 엔진은 edge(무료, 기본) / elevenlabs / silent. `cache/tts`에 해시 캐싱되어 같은 문장·보이스·속도면 재호출하지 않는다.
+- 이 클라우드 환경에서 edge-tts를 돌릴 땐 `SSL_CERT_FILE=/root/.ccr/ca-bundle.crt`가 필요하다 (프록시 인증서).
 - ffmpeg 호출에는 항상 `-t`로 출력 길이를 못박는다 (루프 입력 무한 렌더 방지).
 - 검증: `python -m reels demo`가 오류 없이 `output/demo.mp4`(1080x1920)를 만들어야 한다.
