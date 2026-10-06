@@ -5,7 +5,6 @@ Veo를 공식 Gemini API로 호출하고, 웹 Flow에 수동 업로드할 때도
 있는 프롬프트·나레이션·SRT 파일을 함께 만든다.
 """
 import json
-import mimetypes
 import os
 import time
 from pathlib import Path
@@ -118,8 +117,8 @@ def submit(manifest_path: str, dry_run: bool = False, poll_seconds: int = 10) ->
         raise RuntimeError("Google 영상 생성을 쓰려면 `pip install google-genai` 하세요.") from exc
 
     image_path = Path(request["image"])
-    mime_type = mimetypes.guess_type(image_path.name)[0] or "image/jpeg"
-    image = types.Image(image_bytes=image_path.read_bytes(), mime_type=mime_type)
+    image = types.Image.from_file(location=str(image_path))
+    source = types.GenerateVideosSource(prompt=request["prompt"], image=image)
     config = types.GenerateVideosConfig(
         aspect_ratio=request["aspect_ratio"],
         resolution=request["resolution"],
@@ -128,7 +127,7 @@ def submit(manifest_path: str, dry_run: bool = False, poll_seconds: int = 10) ->
     )
     client = genai.Client(api_key=api_key)
     operation = client.models.generate_videos(
-        model=request["model"], prompt=request["prompt"], image=image, config=config
+        model=request["model"], source=source, config=config
     )
     print(f"Veo 요청 접수: {getattr(operation, 'name', 'operation')}")
     while not operation.done:
