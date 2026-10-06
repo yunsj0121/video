@@ -17,6 +17,32 @@ python -m reels demo                   # 테스트 클립을 만들어 output/de
 
 API 키 없이도 **무료 음성(edge-tts)**으로 나레이션이 들어갑니다 (인터넷 연결 필요).
 
+## 사진 한 장으로 10초 음식 릴스 준비
+
+Google Flow 웹앱은 외부 호출용 공개 API가 없으므로, 코드는 Flow가 사용하는 Google 영상 모델을 **공식 Gemini API의 Veo**로 요청합니다. Flow 웹앱에서 직접 만들 때도 생성된 `flow_prompt.txt`와 같은 사진을 그대로 사용하면 됩니다.
+
+Veo 3.1은 한 번에 4초·6초·8초 영상만 생성합니다. 이 프로젝트는 **8초 세로 원본을 생성하고 최종 목표를 10초로 기록**하며, 마지막 2초와 나레이션·자막은 CapCut에서 맞추는 흐름을 사용합니다.
+
+1. `projects/<이름>/`에 음식 사진과 `flow.json`을 둡니다.
+2. 먼저 비용이 들지 않는 dry-run으로 요청 내용을 검증합니다.
+3. 결과 폴더에서 프롬프트, 나레이션, SRT를 확인한 뒤 실제 생성을 요청합니다.
+
+```bash
++python -m reels flow projects/<이름>/flow.json --dry-run
++# 확인 후 실제 Veo 요청(GEMINI_API_KEY와 API 과금 설정 필요)
++python -m reels flow projects/<이름>/flow.json
++```
+
+`output/<이름>/`에는 다음 파일이 생깁니다.
+
+- `flow_request.json`: 모델·사진·길이·출력 경로를 포함한 최종 요청
+- `flow_prompt.txt`: Google Flow 웹앱에도 붙여 넣을 영상 프롬프트
+- `narration.txt`: CapCut에 넣을 한국어 나레이션 대본
+- `captions.srt`: 10초 기준으로 배분된 자막
+- `<이름>_flow_source.mp4`: 실제 API 요청 시 내려받는 8초 세로 원본
+
+예시는 `projects/demo/flow.json`에 있습니다. `python -m reels demo`를 한 번 실행하면 테스트용 `flow_reference.png`도 만들어집니다.
+
 ## 나레이션 엔진
 
 | 엔진 (`"tts"`) | 비용 | 한국어 음성 (`"voice"`) | 비고 |

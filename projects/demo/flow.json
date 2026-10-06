@@ -1,0 +1,16 @@
+{
+  "name": "demo-food-flow",
+  "image": "flow_reference.png",
+  "prompt": "Vertical 9:16 cinematic food reel. Preserve the exact plated dish and table setting from the reference image. Start with a gentle macro push-in, add subtle steam and appetizing highlights, then make a slow natural camera arc. Realistic restaurant lighting, crisp food texture, premium social media commercial style. No text, no logos, no hands, no added ingredients, no warped plate, no scene cut.",
+  "narration": "사진으로만 봐도 촉촉한 식감이 그대로 느껴지는 오늘의 메뉴입니다",
+  "captions": [
+    "사진으로만 봐도",
+    "촉촉한 식감이 그대로",
+    "오늘의 메뉴입니다"
+  ],
+  "target_seconds": 10,
+  "generation_seconds": 8,
+  "aspect_ratio": "9:16",
+  "resolution": "720p",
+  "model": "veo-3.1-generate-preview"
+}
