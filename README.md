@@ -28,10 +28,10 @@ Veo 3.1은 한 번에 4초·6초·8초 영상만 생성합니다. 이 프로젝�
 3. 결과 폴더에서 프롬프트, 나레이션, SRT를 확인한 뒤 실제 생성을 요청합니다.
 
 ```bash
-+python -m reels flow projects/<이름>/flow.json --dry-run
-+# 확인 후 실제 Veo 요청(GEMINI_API_KEY와 API 과금 설정 필요)
-+python -m reels flow projects/<이름>/flow.json
-+```
+python -m reels flow projects/<이름>/flow.json --dry-run
+# 확인 후 실제 Veo 요청(GEMINI_API_KEY와 API 과금 설정 필요)
+python -m reels flow projects/<이름>/flow.json
+```
 
 `output/<이름>/`에는 다음 파일이 생깁니다.
 
